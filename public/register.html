@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="regStyles.css">
+</head>
+
+<body>
+    <h1 id="mainHeading">Register your profile</h1>
+    <Form class="mainform">
+        <div class="group">
+            <Label>Your Name</Label>
+            <Input type="text" name="name" id="name" />
+        </div>
+        <div class="group">
+            <Label>Your email</Label>
+            <Input type="email" name="email" id="email" />
+        </div>
+        <div class="group">
+            <Label>Password</Label>
+            <Input type="password" name="pwd" id="pwd" />
+        </div>
+        <div class="group">
+            <Label>Confirm Password</Label>
+            <Input type="password" name="cnfpwd" id="cnfpwd" />
+        </div>
+        <div class="group">
+            <input id="prof" type="radio" name="role" value="true">Professor</input>
+            <input type="radio" name="role" value="false">Student</input>
+        </div>
+        <div class="group">
+            <input type="submit" id="submitbtn">Register Now</input>
+        </div>
+        <div class="group">
+            <a href="/login">Already registered?</a>
+        </div>
+
+    </Form>
+
+    <script>
+        const host = 'http://localhost:3000';
+
+        document.getElementById('submitbtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const pwd = document.getElementById('pwd').value;
+            const cnfpwd = document.getElementById('cnfpwd').value;
+            const prof = document.getElementById('prof').checked ? 'true' : 'false';
+            const body = { name, email, pwd, cnfpwd, prof }
+            let userData = {name, email}
+            const response = await fetch(`${host}/api/auth/register`, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+            if (response.status === 200) {
+                alert("Registered Successfully")
+                localStorage.setItem('user',JSON.stringify(userData))
+                if (prof.localeCompare('true') !== 0)
+                    window.location.href = `/student`
+                else
+                    window.location.href = '/prof'
+            } else {
+                let json = await response.json()
+                alert(json.error || json.errors)
+            }
+        })
+    </script>
+</body>
+
+</html>

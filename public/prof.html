@@ -1,0 +1,151 @@
+<!-- saved from url=(0047)http://172.16.26.43/thesisUploaderIITP/prof.php -->
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Professor Dashboard | Thesis IIT Patna</title>
+
+    <link href="./Professor Dashboard _ Thesis IIT Patna_files/bootstrap.min.css" rel="stylesheet">
+    <link href="./Professor Dashboard _ Thesis IIT Patna_files/style.css" rel="stylesheet">
+    <link rel="icon" href="./Professor Dashboard _ Thesis IIT Patna_files/logo.png">
+    <script type="text/javascript" src="./Professor Dashboard _ Thesis IIT Patna_files/jquery.min.js.download"></script>
+    <script src="./Professor Dashboard _ Thesis IIT Patna_files/jquery.redirect.js.download"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale= 1">
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="language" content="English">
+    <meta name="author" content="Aditya Suman">
+</head>
+
+<body>
+    <!--------navigation bar---->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_m-p header_bar_title">
+
+
+                            <h1>Thesis IIT Patna </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active">
+                    <a id="logout_btn" class="log_btn" style="background-color: red;">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--------main container------>
+    <div class="container-fluid">
+        <!------prof's Detail-------->
+        <div class="row sudent_card">
+
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 x_m-p">
+                <label>Name</label>
+                <input type="text" id="name" required readonly>
+            </div>
+        </div>
+        <br>
+
+        <div class="error" id="error"></div>
+        <br>
+
+        <!------thesis list-------->
+        <div class="row table_card">
+            <div class="tab_bar">
+                <input type="submit" class="tabButton" value="Pending">
+                <input type="submit" class="tabButton highlightedTabButton" value="Approved">
+            </div>
+            <br>
+
+            <table class="table">
+                <thead class="thead-dark notif_table_title person_entry_list_title" id="table">
+                    <tr>
+                        <th scope="col">Sl.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Roll</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Abstract</th>
+                        <th scope="col">Keywords</th>
+                        <th scope="col">Thesis</th>
+                        <th scope="col">Certificate</th>
+                        <th scope="col">Approve</th>
+                    </tr>
+                </thead>
+
+                <script>
+                    const host = 'http://localhost:3000'
+                    var table = document.getElementById('table');
+
+                    document.getElementById('logout_btn').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        localStorage.removeItem('user');
+                        window.location.href = '/';
+                    })
+                    window.onload = async () => {
+                        // const response1 = await fetch(`${host}/api/auth/currentuser`);
+                        const currentuser = JSON.parse(localStorage.getItem('user'));
+                        if (!currentuser) window.location.href = '/';
+                        document.getElementById('name').value = currentuser.name
+
+
+                        let body = { email: currentuser.email }
+
+                        const response = await fetch(`${host}/api/thesis/view`, {
+                            method: 'POST',
+                            headers: {'content-type': 'application/json'},
+                            body: JSON.stringify(body)
+                        })
+                        const data = await response.json();
+
+
+                        data.map((item, index) => {
+                            var row = document.createElement('tr');
+                            if (item.approved) {
+                                row.innerHTML = `<td>${index + 1}</td>
+                                <td>${item.name}</td>
+                                <td>${item.roll}</td>
+                                <td>${item.thesis_title}</td>
+                                <td>${item.thesis_abstract}</td>
+                                <td>${item.thesis_keywords}</td>
+                                <td><a href=${item.thesis} target='_blank'><button class='custombtn'>View Thesis</button></a></td>
+                                <td><a href=${item.certificate} target='_blank'><button class='custombtn'>View Certificate</button></a></td>
+                                <td>Approved</td>`
+                            } else {
+                                row.innerHTML = `<td>${index + 1}</td>
+                                <td>${item.name}</td>
+                                <td>${item.roll}</td>
+                                <td>${item.thesis_title}</td>
+                                <td>${item.thesis_abstract}</td>
+                                <td>${item.thesis_keywords}</td>
+                                <td><a href=${item.thesis} target='_blank'><button class='custombtn'>View Thesis</button></a></td>
+                                <td><a href=${item.certificate} target='_blank'><button class='custombtn'>View Certificate</button></a></td>
+                                <td><button class='custombtn approval' id=${item._id}>Approve now</button></td>`
+                            }
+                            table.appendChild(row);
+                        })
+                        Array.from(document.getElementsByClassName('approval')).forEach(approve => {
+                            approve.addEventListener('click', async () => {
+                                if (confirm("Do you want to approve this? It cannot be undone")) {
+                                    let response = await fetch(`${host}/api/thesis/approve/${approve.id}`, {
+                                        method: 'PUT'
+                                    })
+                                    if (response.status === 200) {
+                                        location.reload();
+                                    }
+                                }
+                            })
+                        });
+                    }
+                </script>
+</body>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>

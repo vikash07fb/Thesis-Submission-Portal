@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(24, 26, 44);
+}
+
+#mainHeading{
+    text-align: center;
+    margin-top: 115px;
+    margin-bottom: 20px;
+    color:rgb(255, 255, 255);
+}
+
+.mainform{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    border: 2px solid rgb(255, 255, 255);
+    background: #fff;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+.group{
+    margin: 15px 0;
+}
+
+.group label, .group input{
+    margin: 0 10px;
+}
+
+.group input{
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#submitbtn{
+    padding:5px 15px;
+    border: none;
+}
+
+#submitbtn:hover{
+    background-color: #4a4444;
+    color: white
+}

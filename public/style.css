@@ -1,0 +1,342 @@
+@font-face
+{
+	font-family:my;
+	src: url(fonts/calibri.ttf);
+}
+
+body
+{	
+	padding:0;
+	margin:0;
+	font-family:my;
+	background: #20211f;
+}
+
+a
+{
+	text-decoration: none;	
+}
+
+a:hover
+{
+	text-decoration: none;
+}
+
+.row
+{
+	padding: 0px;
+	margin: 0px;
+	margin-top: 1px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.navbar
+{
+	border-radius: 0px;
+	background-color: #181915;
+	border: none;
+	/*border-bottom: 2px solid transparent;
+	border-image: linear-gradient(to right, #9E7CC1, #8ECDEA);
+	border-image-slice: 1;*/
+}
+
+.navbar-brand
+{
+	padding: 0px;
+	margin: 0px;
+	text-align: left;
+}
+
+.navbar-brand .row
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+.header_bar_title
+{
+	padding: 0px;
+	margin: 0px;
+	vertical-align: middle;		
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #f1f1f1;
+}
+
+.header_bar_title img
+{
+	padding: 4px;
+	height: 100%;
+}
+
+.log_btn, .log_btn:hover
+{
+	font-size: 120%;
+	color: white;
+	cursor: pointer;
+}
+
+.sudent_card, .course_card, .table_card
+{
+	width: 60%;
+	background: #181915;
+	padding: 10px;
+	margin: auto;
+	box-shadow: 0px 0px 1px grey;
+	border-radius: 5px;
+	color: #f1f1f1;
+	font-size: 120%;
+}
+
+.course_card {
+	text-align: center;
+}
+
+.table_card {
+	overflow-x: scroll;
+	width: 85%;
+	background: #d8d8d8;
+}
+
+.notif_table_title
+{
+	background: #212529;
+	color: white;
+}
+
+.sudent_card img
+{
+	width: 100%;
+	border-radius: 5px;
+}
+
+.tabButton {
+	width: 48%;
+}
+
+.tabButton2 {
+	width: 100%;
+}
+
+.highlightedTabButton {
+	background: #5bc0de;
+	color: white;
+}
+
+.strength_box {
+	background: #28a745;
+
+	cursor: default;
+}
+
+.weakness_box {
+	background: #dc3545;
+
+	cursor: default;
+}
+
+.warn_box {
+	background: #ffc107;
+
+	cursor: default;
+}
+
+.avg_box {
+	background: #17a2b8;
+
+	cursor: default;
+}
+
+.filter_btn {
+	border-radius: 100px;
+	margin: 2px;
+}
+
+.highlightedFilterBtn {
+	background: #ffc107;
+}
+
+input, select, textarea
+{
+	height: 40px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+
+	padding: 5px;
+	font-size: 16px;
+	border-radius: 3px;
+	border: 1px solid gray;
+	background: #f1f1f1;
+	margin: auto;
+	color: black;
+}
+
+textarea
+{
+	height: 150px;
+	/*resize: none;*/
+}
+
+label
+{
+	text-align: left;
+	width: 100%;
+	font-weight: 100;
+}
+
+button
+{
+	width: 50%;
+	font-size: 120%;
+	font-weight: 900;
+}
+
+.submit_btn
+{
+	float: right;
+}
+
+.view_btn img, .edit_btn img, .delt_btn img
+{
+	width: 18px;	
+}
+
+.error
+{
+	color: red;
+	font-size: 22px;
+	text-align: center;
+}
+
+.gif_loader
+{
+	height: 40px;
+	width: 40px;
+}
+
+
+#refreshed
+{
+	height: 0px;
+	opacity: 0;
+	cursor: default;
+}
+
+.go_home_btn
+{
+	width: 100%;
+	text-align: center;
+	padding: 5px;
+	margin-left: 30px;
+	color: #f1f1f1;
+	box-shadow: 0px 0px 1px #f1f1f1;
+	border-radius: 3px;
+}
+
+.go_home_btn:hover
+{
+	color: #f1f1f1;
+}
+
+.go_home_btn img
+{
+	width: 20px;
+}
+
+.meter_container {
+	/*display: inline-block;*/
+	width: 350px;
+	height: 35px;
+	background: darkgrey;
+
+	border-radius: 5px;
+	border-color: grey;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.meter_flow {
+	height: 100%;
+	border-radius: 5px;
+
+	background: #27c44b;
+}
+
+
+/*--------overlay div stuffs---------*/
+	.overlay_backgrnd
+	{
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 10;
+		
+		background-color: black;
+		width: 100%;
+		height: 100%;
+		opacity: .7;
+
+		display: none;
+	}
+
+	.overlay_div
+	{
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 20;
+
+		background-color: #181915;
+		margin-left: 100px;
+		margin-right: 100px;
+		min-height: 100px;
+		border-radius: 5px 5px 0px 0px;
+		padding: 5px;
+
+		display: none;
+	}
+
+	.close_overlay_btn
+	{
+		margin: 0px;
+		padding: 0px;
+		cursor: pointer;;
+		
+		background: red;
+		color: white;
+		float: right;
+		
+		height: 15px;
+		width: 15px;
+		border-radius: 15px;
+	}
+
+	.overlay_content
+	{
+		width: 100%;
+		height: 100%;
+		text-align: center;
+	}
+
+	td{
+		margin: 10px;
+		padding: 5px;
+	}
+
+	.custombtn{
+		width: 100%;
+		padding: 3px
+	}
+
+
+/*------------media queries-------------------*/
+	@media screen and (max-width: 700px)
+	{
+		.sudent_card, .course_card
+		{
+			width: 90%;
+		}
+	}

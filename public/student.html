@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Student Portal</title>
+</head>
+
+<body>
+  <div class="row course_card">
+    <form style="width: 80%; margin: auto" id="submit_thesis_form">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="name" required readonly>
+      </div>
+
+      <div class="form-group">
+        <label>Roll</label>
+        <input type="text" id="roll" required>
+
+      </div>
+
+      <div class="form-group">
+        <label>Supervisor Name</label>
+        <input type="text" class="form-control" id="supervisor_name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Supervisor Webmail</label>
+        <input type="email" class="form-control" id="supervisor_email" required>
+      </div>
+
+      <div class="form-group">
+        <label>Co-Supervisor Name (optional)</label>
+        <input type="text" class="form-control" id="co_supervisor_name" />
+      </div>
+
+      <div class="form-group">
+        <label>Co-Supervisor Webmail (optional)</label>
+        <input type="email" class="form-control" id="co_supervisor_email" />
+      </div>
+
+      <div class="form-group">
+        <label>Thesis Title</label>
+        <input type="text" class="form-control" id="thesis_title" required>
+      </div>
+
+      <div class="form-group">
+        <label>Abstract</label>
+        <textarea class="form-control" id="thesis_abstract" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Keyword</label>
+        <textarea class="form-control" id="thesis_keywords" required></textarea>
+        <span>separate keywords by comma (,). maximum 4 keywords
+          supported</span>
+      </div>
+
+      <div class="form-group">
+        <label for="file">Upload Thesis</label>
+        <input type="file" class="file" id="thesis" required>
+      </div>
+
+      <div class="form-group">
+        <label for="file">Upload Thesis Certificate</label>
+        <input type="file" class="file" id="certificate" required>
+      </div>
+
+      <button type="submit" id="submit_btn" class="btn btn-primary">
+        Submit
+      </button>
+      <a href="#" id="logout">Log Out</a>
+    </form>
+  </div>
+  <div class="error" id="error"></div>
+  </div>
+</body>
+<script>
+  const host = 'http://localhost:3000';
+  window.onload= async ()=>{
+    const currentuser = JSON.parse(localStorage.getItem('user'));
+    if(!currentuser) window.location.href='/';
+    document.getElementById('name').value = currentuser.name
+  }
+  const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+
+  document.getElementById('logout').addEventListener('click',(e)=>{
+    e.preventDefault();
+    localStorage.removeItem('user');
+    window.location.href = '/'
+  })
+
+  document.getElementById('submit_btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    if(confirm("Are you sure you want to upload this thesis? Check all the entries carefully")){
+      console.log('clicked')
+      var thesis = document.getElementById('thesis').files
+      var certificate = document.getElementById('certificate').files
+      var thesisData = await toBase64(thesis[0]);
+      var certData = await toBase64(certificate[0]);
+      let body = {
+        name: document.getElementById('name').value,
+        email: JSON.parse(localStorage.getItem('user')).email,
+        roll: document.getElementById('roll').value,
+        supervisor_name: document.getElementById('supervisor_name').value,
+        supervisor_email: document.getElementById('supervisor_email').value,
+        co_supervisor_name: document.getElementById('co_supervisor_name').value,
+        co_supervisor_email: document.getElementById('co_supervisor_email').value,
+        thesis_title: document.getElementById('thesis_title').value,
+        thesis_abstract: document.getElementById('thesis_abstract').value,
+        thesis_keywords: document.getElementById('thesis_keywords').value,
+        thesis: thesisData,
+        certificate: certData
+      }
+      console.log(body);
+      const response = await fetch(`${host}/api/thesis/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      if (response.status === 200) alert("Thesis saved successfully")
+      else {
+        const json = await response.json()
+        alert(JSON.stringify(json))
+      }
+    }
+
+  })
+</script>
+
+</html>

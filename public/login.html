@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="regStyles.css">
+</head>
+
+<body>
+    <h1 id="mainHeading">Login to your profile</h1>
+    <Form class="mainform">
+        <div class="group">
+            <Label>Your email</Label>
+            <Input type="email" name="email" id="email" />
+        </div>
+        <div class="group">
+            <Label>Password</Label>
+            <Input type="password" name="pwd" id="pwd" />
+        </div>
+        <div class="group">
+            <input type="submit" id="submitbtn">Login Now</input>
+        </div>
+        <div class="group">
+            <a href="/">Don't have an account?</a>
+        </div>
+
+    </Form>
+
+    <script>
+        const host = 'http://localhost:3000';
+
+        document.getElementById('submitbtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const pwd = document.getElementById('pwd').value;
+            const body = { email, pwd }
+            // let userData = {name, email}
+            const response = await fetch(`${host}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+            if (response.status === 200) {
+                alert("Login Successfully")
+                let json = await response.json();
+                const { name, prof } = json;
+                let userData = { name, email }
+                localStorage.setItem('user', JSON.stringify(userData))
+
+                console.log(prof)
+                if (!prof)
+                    window.location.href = `/student`
+                else
+                    window.location.href = '/prof'
+            } else {
+                let json = await response.json()
+                alert(json.error || json.errors)
+            }
+        })
+    </script>
+</body>
+
+</html>
